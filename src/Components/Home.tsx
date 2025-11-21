@@ -12,6 +12,7 @@ function Home() {
   const [creatingUser, setCreatingUser] = useState<boolean>(false);
   const [data, setData] = useState<userModel>({name: "", username: "", id: 108, phone: "", website: "", email: ""});
   const { fetchUsers, createUser, users, setUsers, loading, setLoading }=useContext(userContext)!;
+  const isInvalid = !data?.name || !data?.username || !data?.email || !data?.phone || !data?.website;
 
   function handleNavigateUser(element: userModel): void {
     //Navigates to User specific page if no task is running.
@@ -76,7 +77,7 @@ function Home() {
           <input name="website" value={data?.website} onChange={(e)=> setData(prev=>({...prev, website:e.target.value}))} type="text" placeholder="Website" className="w-full py-2 px-2 bg-gray-200 border-l-2 border-t-2 border-gray-800"></input>
         </div>
         <div className="flex justify-center">
-          <button type="submit" className="px-6 py-2 text-amber-50 bg-green-800 hover:bg-green-600 active:bg-green-700 hover:cursor-pointer">Create !</button>
+          <button type="submit" disabled={isInvalid} className="px-6 py-2 text-amber-50 bg-green-800 hover:bg-green-600 active:bg-green-700 hover:cursor-pointer">Create !</button>
         </div>
       </form>
     </div>}

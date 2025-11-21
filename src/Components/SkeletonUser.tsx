@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 
 function SkeletonUser() {
   return (
+    // Skeleton version of corresponding component
     <div className="z-1 w-full min-h-screen bg-[#0d1b2a] text-amber-50">
       <div className="flex flex-col lg:flex-row justify-center items-center w-full min-h-screen gap-10 pt-12 px-2 lg:px-24 animate-pulse">
         <div className={`flex flex-col gap-3 px-3 w-full`}>
