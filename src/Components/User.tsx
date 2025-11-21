@@ -93,7 +93,7 @@ function User() {
           <input name="website" value={data?.website} onChange={(e)=> setData(prev=>({...prev, website:e.target.value}))} type="text" placeholder="Website" className="w-full py-2 px-2 bg-gray-200 border-l-2 border-t-2 border-gray-800"></input>
         </div>
         <div className="flex justify-center">
-          <button type="submit" disabled={isInvalid} className="px-6 py-2 text-amber-50 bg-green-800 hover:bg-green-600 active:bg-green-700 hover:cursor-pointer">Update !</button>
+          <button type="submit" disabled={isInvalid} className={`px-6 py-2 text-amber-50 ${isInvalid?"bg-green-300 hover:cursor-not-allowed":"bg-green-800 hover:bg-green-600 active:bg-green-700 hover:cursor-pointer"}`}>Update !</button>
         </div>
       </form>
     </div>}
