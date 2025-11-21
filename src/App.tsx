@@ -8,6 +8,7 @@ import AlertState from './Contexts/AlertState';
 function App() {
   return (
     <>
+    {/* Wrap components inside the Context APIs for availability of utilities without prop drilling */}
     <AlertState>
       <UserState>
         <BrowserRouter>

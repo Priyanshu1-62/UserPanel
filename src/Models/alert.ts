@@ -1,4 +1,4 @@
 export interface AlertInfo {
-    color: "red" | "green";
+    color: "red" | "green" | "noColor";
     msg: string;
   }

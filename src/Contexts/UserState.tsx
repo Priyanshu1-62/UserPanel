@@ -6,10 +6,11 @@ import type { userModel } from '../Models/user';
 
 function UserState(props: PropsWithChildren) {
   //Dummy variables for return on failure
-  const demoUser: userModel = {id: -1, userId: -1, title: "", body: ""};
+  const demoUser: userModel = {id: -1, name: "", username: "", email: "", phone: "", website: ""};
   const demoUserArr: userModel[] = [];
 
   const [users, setUsers] = useState(demoUserArr);
+  const [loading, setLoading] = useState(false);
 
   //Add '!' to command TS that alertContext is never NULL
   const { handleAlert } = useContext(alertContext)!;
@@ -17,13 +18,12 @@ function UserState(props: PropsWithChildren) {
   // Fetch Users
   async function fetchUsers(): Promise<userModel[]> {
     try {
-        let response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        let response = await fetch('https://jsonplaceholder.typicode.com/users', {
             method: "GET"
         });
         if(response.ok){
             let res: userModel[]=await response.json();
             setUsers(res);
-            handleAlert({color: "green", msg: "Users data fetched successfully !"});
             return res;
         }
         else{
@@ -37,15 +37,40 @@ function UserState(props: PropsWithChildren) {
     }
   }
 
+  // Fetch User
+  async function fetchUser(id: number): Promise<userModel> {
+    try {
+        let response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+            method: "GET"
+        });
+        if(response.ok){
+            let res: userModel=await response.json();
+            // handleAlert({color: "green", msg: "Users data fetched successfully !"});
+            return res;
+        }
+        else{
+          handleAlert({color: "red", msg: "Failed to fetch user data"});
+          return demoUser;
+        }
+    } 
+    catch (error) {
+        handleAlert({color: "red", msg: "Failed to fetch user data"});
+        return demoUser;
+    }
+  }
+
   //Create a User
   async function createUser(data: userModel): Promise<userModel> {
     try {
-      const response =await fetch('https://jsonplaceholder.typicode.com/posts', {
+      const response =await fetch('https://jsonplaceholder.typicode.com/users', {
         method: 'POST',
         body: JSON.stringify({
-          title: data.title,
-          body: data.body,
-          userId: data.userId,
+          id: data.id,
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          phone: data.phone, 
+          website: data.website
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -70,13 +95,15 @@ function UserState(props: PropsWithChildren) {
   //Update user
   async function updateUser(data: userModel): Promise<userModel> {
     try {
-      let response = await fetch(`https://jsonplaceholder.typicode.com/posts/${data.id}`, {
+      let response = await fetch(`https://jsonplaceholder.typicode.com/users/${data.id}`, {
         method: 'PUT',
         body: JSON.stringify({
-          id: 1,
-          title: data.title,
-          body: data.body,
-          userId: data.userId,
+          id: data.id,
+          name: data.name,
+          username: data.username,
+          email: data.email,
+          phone: data.phone, 
+          website: data.website
         }),
         headers: {
           'Content-type': 'application/json; charset=UTF-8',
@@ -101,7 +128,7 @@ function UserState(props: PropsWithChildren) {
   //Delete user
   async function deleteUser(id: number): Promise<void> {
     try {
-      let response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+      let response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
         method: 'DELETE',
       });
       if(response.ok){
@@ -116,7 +143,7 @@ function UserState(props: PropsWithChildren) {
     }
   }
   return (
-    <userContext.Provider value={{fetchUsers, createUser, updateUser, deleteUser, users}}>
+    <userContext.Provider value={{fetchUsers, fetchUser, createUser, updateUser, deleteUser, users, setUsers, loading, setLoading}}>
         {props.children}
     </userContext.Provider>
   )

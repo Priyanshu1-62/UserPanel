@@ -1,6 +1,8 @@
 export interface userModel {
-    userId: number;
     id: number;
-    title: string;
-    body: string;
+    name: string;
+    username: string;
+    email: string;
+    phone: string;
+    website: string;
 }
